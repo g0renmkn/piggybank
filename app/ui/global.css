@@ -7,7 +7,6 @@
   --fg: #cdb;
 }
 
-body {
-  background-color: var(--bg);
-  color: var(--fg);
+.visibleborder {
+  border: 1px solid #f00;
 }
