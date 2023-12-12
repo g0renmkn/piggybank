@@ -22,20 +22,50 @@ export async function bankGetAccs() {
     return resjson;
 }
 
+/**
+ * bankCreateAcc()
+ * 
+ * Create a new bank account
+ * 
+ * @param obj 
+ * @returns 
+ */
 export async function bankCreateAcc(obj: any) {
-    console.log("Inserting object");
-    console.log(obj);
-    const res = await fetch('http://localhost:4343/api/v1/banks/accounts', {
-        next: {
-            revalidate: 0
-        },
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(obj),
-    })
-    const data = await res.json();
+    let res = null;
+    let data = null;
 
-    return data;
+    try {
+        res = await fetch('http://localhost:4343/api/v1/banks/accounts', {
+            next: {
+                revalidate: 0
+            },
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj),
+        })
+        data = await res.json();
+    }
+    catch (err) {
+        console.log(err);
+        res = { status: -1}
+        if (err instanceof TypeError) {
+            data = {
+                err: "TypeError",
+                message: "Cannot connect to backend to post data."
+            }
+        }
+        else {
+            data = {
+                err: "Unexpected error",
+                message: "An unexpected error occurred."
+            }
+        }
+    }
+
+    return {
+        status: res.status,
+        data: data
+    }
 }

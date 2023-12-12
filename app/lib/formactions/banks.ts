@@ -60,9 +60,7 @@ export async function formCreateAccount(prevState: AccState, formData: FormData)
 
     const validatedFields = ParsableAccSchema.safeParse(parsableObj);
 
-    console.log(validatedFields.success);
     if (!validatedFields.success) {
-        console.log(validatedFields.error.flatten().fieldErrors);
         return {
             errors: validatedFields.error.flatten().fieldErrors,
             message: "Missing fields."
@@ -76,8 +74,13 @@ export async function formCreateAccount(prevState: AccState, formData: FormData)
         comments: formData.get("comments")
     }
     
-    const res = await bankCreateAcc(obj);
-    console.log(res);
+    // Focus on retrieving the result only if it's an error
+    const res: {status: number; data: {err: string; message: string};} = await bankCreateAcc(obj);
+    if (res.status != 200) {
+        return {
+            message: "[" + res.data.err + "]: " + res.data.message
+        }
+    }
 
     revalidatePath("/dashboard/bankaccs");
     return {}

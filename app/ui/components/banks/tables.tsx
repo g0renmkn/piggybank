@@ -16,7 +16,20 @@ import { bankGetAccs } from "@/app/lib/db/api_banks";
  * @returns <AccountsTable />
  */
 export async function AccountsTable() {
-    const accs = await bankGetAccs();
+    let accs = null;
+    let errmessage = null;
+    try {
+        accs = await bankGetAccs();
+    }
+    catch (err: unknown) {
+        if (err instanceof TypeError) {
+            errmessage = "[" + err.name + "]: " + err.message;
+        }
+        else {
+            console.log(err);
+            errmessage = "Unknown error occurred."
+        }
+    }
 
     return (
         <div className="mt-6 flow-root">
@@ -34,7 +47,7 @@ export async function AccountsTable() {
                 </thead> */}
                 
                 <tbody className="bg-zinc-700">
-                    {accs.map((acc: BankAccount) => {
+                    {accs?accs.map((acc: BankAccount) => {
                     return (
                         <tr key={acc.id} className="w-full border-b py-3 text-md last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                             <td className="whitespace-nowrap px-3 py-3">{acc.id}</td>
@@ -43,9 +56,15 @@ export async function AccountsTable() {
                             <td className="whitespace-nowrap px-3 py-3">{acc.comments}</td>
                         </tr>
                     )
-                })}
+                }):""}
                 </tbody>
             </table>
+            {
+                errmessage && 
+                <p className="text-red-600">
+                    Cannot fetch data: {errmessage}
+                </p>
+            }
         </div>
     );
 }

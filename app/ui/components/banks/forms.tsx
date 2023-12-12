@@ -27,10 +27,10 @@ export function AccountsForm() {
     <div className="mt-6 text-zinc-900">
       <div className="rounded-md bg-zinc-600 p-4 md:p-6">
         
-        <form action={dispatch}>
+        <form id={"BankAccForm"} action={dispatch}>
           {/* Account name */}
           <div className="mb-4">
-            <label htmlFor="amount" className="mb-2 block text-sm font-medium">Account name: *</label>
+            <label htmlFor="name" className="mb-2 block text-sm font-medium">Account name: *</label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
                 <input
@@ -54,7 +54,7 @@ export function AccountsForm() {
 
           {/* Account Iban */}
           <div className="mb-4">
-            <label htmlFor="amount" className="mb-2 block text-sm font-medium">IBAN: *</label>
+            <label htmlFor="iban" className="mb-2 block text-sm font-medium">IBAN: *</label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
                 <input
@@ -78,7 +78,7 @@ export function AccountsForm() {
 
           {/* Account closed date */}
           <div className="mb-4">
-            <label htmlFor="amount" className="mb-2 block text-sm font-medium">Closing Date:</label>
+            <label htmlFor="closed" className="mb-2 block text-sm font-medium">Closing Date:</label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
                 <input
@@ -104,7 +104,7 @@ export function AccountsForm() {
 
           {/* Account comments */}
           <div className="mb-4">
-            <label htmlFor="amount" className="mb-2 block text-sm font-medium">Comments:</label>
+            <label htmlFor="comments" className="mb-2 block text-sm font-medium">Comments:</label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
                 <input
@@ -125,6 +125,13 @@ export function AccountsForm() {
             <button type="submit">Create Invoice</button>
           </div>
         </form>
+          <div id="form-error" aria-live="polite" aria-atomic="true">
+            {state.message &&
+                <p className="mt-2 text-sm text-red-500" key={"generic-error"}>
+                  {state.message}
+                </p>
+            }
+          </div>
       </div>
     </div>
   );
