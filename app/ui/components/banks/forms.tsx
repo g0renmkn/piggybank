@@ -1,3 +1,4 @@
+'use client';
 /**
  * @/app/ui/components/banks/forms.tsx
  * 
@@ -6,6 +7,7 @@
  */
 
 import { formCreateAccount } from '@/app/lib/formactions/banks';
+import { useFormState } from 'react-dom';
 
 
 /**
@@ -15,14 +17,17 @@ import { formCreateAccount } from '@/app/lib/formactions/banks';
  * 
  * @returns <AccountsForm />
  */
-export async function AccountsForm() {
+export function AccountsForm() {
   const input_classnames = "block w-full rounded-md border border-zinc-800 py-2 pl-10 text-sm outline-2 placeholder:text-zinc-500 focus:border-lime-500 focus:bg-lime-50 focus:ring-lime-500 bg-zinc-400";
+
+  const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(formCreateAccount, initialState);
 
   return (
     <div className="mt-6 text-zinc-900">
       <div className="rounded-md bg-zinc-600 p-4 md:p-6">
         
-        <form action={formCreateAccount}>
+        <form action={dispatch}>
           {/* Account name */}
           <div className="mb-4">
             <label htmlFor="amount" className="mb-2 block text-sm font-medium">Account name: *</label>
@@ -39,14 +44,12 @@ export async function AccountsForm() {
                 {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
               </div>
             </div>
-            {/* <div id="name-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
+            <div id="name-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.name &&
+                state.errors.name.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>{error}</p>
                 ))}
-            </div> */}
+            </div>
           </div>
 
           {/* Account Iban */}
@@ -65,14 +68,12 @@ export async function AccountsForm() {
                 {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
               </div>
             </div>
-            {/* <div id="iban-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
+            <div id="iban-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.iban &&
+                state.errors.iban.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>{error}</p>
                 ))}
-            </div> */}
+            </div>
           </div>
 
           {/* Account closed date */}
@@ -91,14 +92,14 @@ export async function AccountsForm() {
                 {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
               </div>
             </div>
-            {/* <div id="closed-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
+            <div id="closed-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.closed &&
+                state.errors.closed.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
-            </div> */}
+            </div>
           </div>
 
           {/* Account comments */}
@@ -108,23 +109,15 @@ export async function AccountsForm() {
               <div className="relative">
                 <input
                   id="comments"
-                  name="closed"
+                  name="comments"
                   type="text"
                   placeholder="Comment here..."
                   className={input_classnames}
-                  aria-describedby="closed-error"
+                  aria-describedby="comments-error"
                 />
                 {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
               </div>
             </div>
-            {/* <div id="closed-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div> */}
           </div>
 
           {/* Submit button */}
