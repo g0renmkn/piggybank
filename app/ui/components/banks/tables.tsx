@@ -7,6 +7,7 @@
 import { BankAccount } from "@/app/lib/db/definitions";
 import { bankGetAccs } from "@/app/lib/db/api_banks";
 import ActiveTag from "@/app/ui/components/active_tag";
+import { DelAccButton } from "@/app/ui/components/buttons";
 
 /**
  * <AccountsTable />
@@ -41,6 +42,7 @@ export async function AccountsTable() {
                         <th scope="col" className="px-3 py-5 font-medium">IBAN</th>
                         <th scope="col" className="px-3 py-5 font-medium justify-center flex">Active?</th>
                         <th scope="col" className="px-3 py-5 font-medium">Comments</th>
+                        <th></th>
                     </tr>
                 </thead>
                 
@@ -56,6 +58,7 @@ export async function AccountsTable() {
                                 {acc.closed.length>0 && <p className="text-xs">{acc.closed.split("T")[0]}</p>}
                             </td>
                             <td className="whitespace-nowrap px-3 py-3">{acc.comments}</td>
+                            <td><DelAccButton id={acc.id} /></td>
                         </tr>
                     )
                 }):""}

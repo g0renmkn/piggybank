@@ -24,7 +24,7 @@ import {
  * @returns <AccountsForm />
  */
 export function AccountsForm() {
-  const input_classnames = "block w-full rounded-md border border-zinc-800 py-2 pl-10 text-sm outline-2 placeholder:text-zinc-500 focus:border-lime-500 focus:bg-lime-50 focus:ring-lime-500 bg-zinc-400";
+  const input_classnames = "block w-full rounded-md border border-zinc-800 py-2 pl-10 text-sm outline-2 placeholder:text-zinc-500 focus:border-lime-500 focus:bg-lime-50 focus:ring-lime-500 bg-zinc-400 text-zinc-800";
 
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(formCreateAccount, initialState);

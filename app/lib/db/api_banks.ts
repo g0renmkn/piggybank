@@ -73,3 +73,40 @@ export async function bankCreateAcc(obj: any) {
         data: data
     }
 }
+
+
+export async function bankDeletteAcc(id: number) {
+    let res = null;
+    let data = null;
+
+    try {
+        res = await fetch('http://localhost:4343/api/v1/banks/accounts/'+id, {
+            next: {
+                revalidate: 0
+            },
+            method: "DELETE",
+        })
+        data = await res.json();
+    }
+    catch (err) {
+        console.log(err);
+        res = { status: -1}
+        if (err instanceof TypeError) {
+            data = {
+                err: "TypeError",
+                message: "Cannot connect to backend to post data."
+            }
+        }
+        else {
+            data = {
+                err: "Unexpected error",
+                message: "An unexpected error occurred."
+            }
+        }
+    }
+
+    return {
+        status: res.status,
+        data: data
+    }
+}
