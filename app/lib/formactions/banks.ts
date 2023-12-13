@@ -5,7 +5,7 @@
  * File where form actions are defined for Banks section.
  * 
  */
-import { bankCreateAcc, bankDeletteAcc } from "@/app/lib/db/api_banks";
+import { bankCreateAcc, bankDeleteAcc } from "@/app/lib/db/api_banks";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -88,7 +88,7 @@ export async function formCreateAccount(prevState: AccState, formData: FormData)
 
 
 export async function formDeleteAccount(id: number) {
-    const res = await bankDeletteAcc(id);
+    const res = await bankDeleteAcc(id);
     
     revalidatePath("/dashboard/bankaccs");
     return {}

@@ -75,7 +75,15 @@ export async function bankCreateAcc(obj: any) {
 }
 
 
-export async function bankDeletteAcc(id: number) {
+/**
+ * bankDeleteAcc()
+ * 
+ * API to delete a bank account
+ * 
+ * @param id 
+ * @returns 
+ */
+export async function bankDeleteAcc(id: number) {
     let res = null;
     let data = null;
 
