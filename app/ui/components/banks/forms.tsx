@@ -8,7 +8,13 @@
 
 import { formCreateAccount } from '@/app/lib/formactions/banks';
 import { useFormState } from 'react-dom';
-
+import { Button } from "@/app/ui/components/button";
+import { 
+  ChatBubbleBottomCenterIcon,
+  CalendarDaysIcon,
+  BuildingLibraryIcon,
+  IdentificationIcon
+} from '@heroicons/react/24/outline';
 
 /**
  * <AccountsForm />
@@ -24,7 +30,7 @@ export function AccountsForm() {
   const [state, dispatch] = useFormState(formCreateAccount, initialState);
 
   return (
-    <div className="mt-6 text-zinc-900">
+    <div className="mt-6 text-zinc-300">
       <div className="rounded-md bg-zinc-600 p-4 md:p-6">
         
         <form id={"BankAccForm"} action={dispatch}>
@@ -41,7 +47,7 @@ export function AccountsForm() {
                   className={input_classnames}
                   aria-describedby="name-error"
                 />
-                {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
+                <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
             </div>
             <div id="name-error" aria-live="polite" aria-atomic="true">
@@ -65,7 +71,7 @@ export function AccountsForm() {
                   className={input_classnames}
                   aria-describedby="iban-error"
                 />
-                {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
+                <BuildingLibraryIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
             </div>
             <div id="iban-error" aria-live="polite" aria-atomic="true">
@@ -89,7 +95,7 @@ export function AccountsForm() {
                   className={input_classnames}
                   aria-describedby="closed-error"
                 />
-                {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
+                <CalendarDaysIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
             </div>
             <div id="closed-error" aria-live="polite" aria-atomic="true">
@@ -115,14 +121,14 @@ export function AccountsForm() {
                   className={input_classnames}
                   aria-describedby="comments-error"
                 />
-                {/* <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
+                <ChatBubbleBottomCenterIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
               </div>
             </div>
           </div>
 
           {/* Submit button */}
           <div className="mt-6 flex justify-end gap-4">
-            <button type="submit">Create Invoice</button>
+            <Button type="submit">Create Invoice</Button>
           </div>
         </form>
           <div id="form-error" aria-live="polite" aria-atomic="true">

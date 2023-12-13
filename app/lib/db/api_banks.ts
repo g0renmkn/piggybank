@@ -16,7 +16,11 @@ import { BankAccount } from "./definitions";
  * @returns 
  */
 export async function bankGetAccs() {
-    const res = await fetch('http://localhost:4343/api/v1/banks/accounts')
+    const res = await fetch('http://localhost:4343/api/v1/banks/accounts', {
+        next: {
+            revalidate: 10
+        }
+    });
     const resjson = await res.json();
 
     return resjson;
