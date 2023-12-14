@@ -86,12 +86,12 @@ export async function AccountsTable() {
  * 
  * @returns <AccountsTable />
  */
-export async function MovsTable({query,currentPage}: {query: string; currentPage: string;}) {
+export async function MovsTable({query,currentPage,limit}: {query: string; currentPage: string; limit: string;}) {
     let movs = null;
     let errmessage = null;
     
     try {
-        movs = await bankGetMovs({query, page: currentPage});
+        movs = await bankGetMovs({query, page: currentPage,limit});
     }
     catch (err: unknown) {
         if (err instanceof TypeError) {

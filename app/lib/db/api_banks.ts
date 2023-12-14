@@ -133,7 +133,8 @@ export async function bankDeleteAcc(id: number) {
 export async function bankGetMovs({query, page, limit}: {query?: string, page?: string, limit?: string}) {
     noStore();
     let url = 'http://localhost:4343/api/v1/banks/movs';
-    let querystr = []
+    let querystr = [];
+
     if (query) {
         querystr.push("query="+query);
     }
@@ -156,4 +157,35 @@ export async function bankGetMovs({query, page, limit}: {query?: string, page?: 
     const resjson = await res.json();
 
     return resjson;
+}
+
+
+/**
+ * bankCountMovs()
+ * 
+ * Get the amount of bank movements
+ * 
+ * @returns 
+ */
+export async function bankCountMovs(query: string) {
+    noStore();
+    let url = 'http://localhost:4343/api/v1/banks/movs/count';
+    let querystr = [];
+
+    if (query) {
+        querystr.push("query="+query);
+    }
+
+    if (querystr.length>0) {
+        url += "?" + querystr.join("&");
+    }
+
+    const res = await fetch(url, {
+        next: {
+            revalidate: 10
+        }
+    });
+    const resjson = await res.json();
+
+    return resjson.count;
 }
