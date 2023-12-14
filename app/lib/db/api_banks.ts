@@ -5,6 +5,7 @@
  * File that has all the functions for fetching data related to banks using the backend RESTful API.
  * 
  */
+import { unstable_noStore as noStore } from 'next/cache';
 
 
 /**
@@ -15,6 +16,7 @@
  * @returns 
  */
 export async function bankGetAccs() {
+    noStore();
     const res = await fetch('http://localhost:4343/api/v1/banks/accounts', {
         next: {
             revalidate: 10
@@ -34,6 +36,7 @@ export async function bankGetAccs() {
  * @returns 
  */
 export async function bankCreateAcc(obj: any) {
+    noStore();
     let res = null;
     let data = null;
 
@@ -83,6 +86,7 @@ export async function bankCreateAcc(obj: any) {
  * @returns 
  */
 export async function bankDeleteAcc(id: number) {
+    noStore();
     let res = null;
     let data = null;
 
@@ -127,6 +131,7 @@ export async function bankDeleteAcc(id: number) {
  * @returns 
  */
 export async function bankGetMovs({query, page, limit}: {query?: string, page?: string, limit?: string}) {
+    noStore();
     let url = 'http://localhost:4343/api/v1/banks/movs';
     let querystr = []
     if (query) {
