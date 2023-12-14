@@ -8,7 +8,7 @@
 
 import { formCreateAccount } from '@/app/lib/formactions/banks';
 import { useFormState } from 'react-dom';
-import { Button } from "@/app/ui/components/button";
+import { GenericButton } from "@/app/ui/components/buttons";
 import { 
   ChatBubbleBottomCenterIcon,
   CalendarDaysIcon,
@@ -128,7 +128,7 @@ export function AccountsForm() {
 
           {/* Submit button */}
           <div className="mt-6 flex justify-end gap-4">
-            <Button type="submit">Create Invoice</Button>
+            <GenericButton type="submit">Create Invoice</GenericButton>
           </div>
         </form>
           <div id="form-error" aria-live="polite" aria-atomic="true">
