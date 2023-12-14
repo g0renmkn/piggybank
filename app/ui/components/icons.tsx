@@ -29,7 +29,7 @@ export function WalletIcon({...props}) {
  */
 export function WalletIcon2({...props}) {
     return (
-        <svg viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" {...props}>
+        <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" {...props}>
             <path stroke="none" d="M0 0h24v24H0z"/> 
             <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
             <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
@@ -46,7 +46,7 @@ export function WalletIcon2({...props}) {
  */
 export function BankIcon({...props}) {
     return (
-        <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" {...props}>
+        <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" {...props}>
             <path stroke="none" d="M0 0h24v24H0z"/>
             <line x1="3" y1="21" x2="21" y2="21" />
             <line x1="3" y1="10" x2="21" y2="10" />

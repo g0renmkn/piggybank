@@ -26,6 +26,21 @@ export type BankMovs = {
     notes: string;
 }
 
+// Table: bank_movs extended
+export type BankMovsExt = {
+    id: number;
+    acc_id: number;
+    date: string;
+    category: number;
+    description: string;
+    value: number;
+    periodicity: number;
+    notes: string;
+    acc_name: string;
+    cat_name: string;
+    period: string;
+}
+
 // Table: bank_stock_movs
 export type BankStocks = {
     id: number;

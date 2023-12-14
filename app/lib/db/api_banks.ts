@@ -5,7 +5,6 @@
  * File that has all the functions for fetching data related to banks using the backend RESTful API.
  * 
  */
-import { BankAccount } from "./definitions";
 
 
 /**
@@ -117,4 +116,39 @@ export async function bankDeleteAcc(id: number) {
         status: res.status,
         data: data
     }
+}
+
+
+/**
+ * bankGetMovs()
+ * 
+ * Get the list of bank movements
+ * 
+ * @returns 
+ */
+export async function bankGetMovs({query, page, limit}: {query?: string, page?: string, limit?: string}) {
+    let url = 'http://localhost:4343/api/v1/banks/movs';
+    let querystr = []
+    if (query) {
+        querystr.push("query="+query);
+    }
+    if (page) {
+        querystr.push("page="+page);
+    }
+    if (limit) {
+        querystr.push("limit="+limit);
+    }
+
+    if (querystr.length>0) {
+        url += "?" + querystr.join("&");
+    }
+
+    const res = await fetch(url, {
+        next: {
+            revalidate: 10
+        }
+    });
+    const resjson = await res.json();
+
+    return resjson;
 }
