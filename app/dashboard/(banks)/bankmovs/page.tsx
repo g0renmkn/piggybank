@@ -34,7 +34,7 @@ export default async function Page({
   return (
     <div>
       <div className="flex flex-row"><WalletIcon2 className="w-6 h-6 stroke-2" /><h1 className="text-lg px-2">Bank movements</h1></div>
-      <SearchBar placeholder={"Enter query"} />
+      <SearchBar placeholder={"Enter query"} defaultLimit={currentLimit} />
       <MovsTable query={query} currentPage={currentPage} limit={currentLimit} />
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={Number(totalPages)} />

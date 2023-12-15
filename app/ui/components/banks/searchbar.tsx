@@ -4,14 +4,14 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function Search({ placeholder }: { placeholder: string }) {
+export default function Search({ placeholder, defaultLimit }: { placeholder: string, defaultLimit: string }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  let selectedLimit = defaultLimit;
 
+  /* Debounce query searching */
   const handleSearch = useDebouncedCallback((term) => {
-    console.log(`Searching... ${term}`);
-
     const params = new URLSearchParams(searchParams);
     params.set('page', '0');
     if (term) {
@@ -22,6 +22,14 @@ export default function Search({ placeholder }: { placeholder: string }) {
     replace(`${pathname}?${params.toString()}`);
   }, 300);
 
+  /* Change row limit */
+  const changeLimit = (sel:any) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('limit', sel.target.value)
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  /* Resturn value */
   return (
     <div className="relative flex flex-1 flex-shrink-0">
       <label htmlFor="search" className="sr-only">
@@ -36,6 +44,20 @@ export default function Search({ placeholder }: { placeholder: string }) {
         defaultValue={searchParams.get('query')?.toString()}
       />
       <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+      <div className="px-3 flex flex-col">
+        <label className="text-xs">Row Limit</label>
+        <select 
+            className="bg-zinc-400 rounded-md text-zinc-800 focus:bg-lime-50 focus:ring-lime-500 text-xs"
+            onChange={changeLimit}
+            defaultValue={selectedLimit}
+            >
+            <option value="5">Custom</option>
+            <option value="5">5</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+      </div>
     </div>
   );
 }
