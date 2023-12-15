@@ -1,9 +1,17 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
+import Link from 'next/link';
 
+
+/**
+ * <Search />
+ * 
+ * @param param0 
+ * @returns 
+ */
 export default function Search({ placeholder, defaultLimit }: { placeholder: string, defaultLimit: string }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -57,6 +65,10 @@ export default function Search({ placeholder, defaultLimit }: { placeholder: str
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
+      </div>
+      <div className="px-3 flex flex-col border-zinc-800 rounded-md text-zinc-800 bg-zinc-400 hover:bg-lime-50 hover:text-lime-600 hover:border-lime-600 justify-center">
+        <label className="text-xs">Reset</label>
+        <Link href={pathname} className="px-1"><ArrowPathIcon className="w-6 h-6"/></Link>
       </div>
     </div>
   );
