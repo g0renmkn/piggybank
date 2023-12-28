@@ -6,6 +6,7 @@
  * 
  */
 import { unstable_noStore as noStore } from 'next/cache';
+import { BASE_URL } from '@/app/lib/db/api_config';
 
 
 /**
@@ -17,7 +18,7 @@ import { unstable_noStore as noStore } from 'next/cache';
  */
 export async function bankGetAccs() {
     noStore();
-    const res = await fetch('http://localhost:4343/api/v1/banks/accounts', {
+    const res = await fetch(BASE_URL + '/banks/accounts', {
         next: {
             revalidate: 10
         }
@@ -41,7 +42,7 @@ export async function bankCreateAcc(obj: any) {
     let data = null;
 
     try {
-        res = await fetch('http://localhost:4343/api/v1/banks/accounts', {
+        res = await fetch(BASE_URL + '/banks/accounts', {
             next: {
                 revalidate: 0
             },
@@ -91,7 +92,7 @@ export async function bankDeleteAcc(id: number) {
     let data = null;
 
     try {
-        res = await fetch('http://localhost:4343/api/v1/banks/accounts/'+id, {
+        res = await fetch(BASE_URL + '/banks/accounts/'+id, {
             next: {
                 revalidate: 0
             },
@@ -132,7 +133,7 @@ export async function bankDeleteAcc(id: number) {
  */
 export async function bankGetMovs({query, page, limit}: {query?: string, page?: string, limit?: string}) {
     noStore();
-    let url = 'http://localhost:4343/api/v1/banks/movs';
+    let url = BASE_URL + '/banks/movs';
     let querystr = [];
 
     if (query) {
@@ -169,7 +170,7 @@ export async function bankGetMovs({query, page, limit}: {query?: string, page?: 
  */
 export async function bankCountMovs(query: string) {
     noStore();
-    let url = 'http://localhost:4343/api/v1/banks/movs/count';
+    let url = BASE_URL + '/banks/movs/count';
     let querystr = [];
 
     if (query) {

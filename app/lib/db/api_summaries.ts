@@ -5,7 +5,7 @@
  * API calls for the Summaries sections
  */
 import { unstable_noStore as noStore } from 'next/cache';
-
+import { BASE_URL } from '@/app/lib/db/api_config';
 
 /**
  * 
@@ -13,7 +13,7 @@ import { unstable_noStore as noStore } from 'next/cache';
  */
 export async function banksSummary() {
     noStore();
-    let url = 'http://localhost:4343/api/v1/sum/banks';
+    let url = BASE_URL + '/sum/banks';
 
     const res = await fetch(url, {
         next: {
