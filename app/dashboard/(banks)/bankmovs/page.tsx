@@ -28,7 +28,7 @@ export default async function Page({
   const currentLimit = searchParams?.limit || "20";
   const df = searchParams?.df || '';
   const dt = searchParams?.dt || '';
-  const totalRows = await bankCountMovs(query, df, dt);
+  const totalRows = await bankCountMovs("movs", query, df, dt);
   const totalPages = Math.ceil(totalRows / Number(currentLimit));
 
   // Sanitize

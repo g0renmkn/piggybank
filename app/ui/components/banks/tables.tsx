@@ -7,11 +7,10 @@
 import { BankAccount, BankMovsExt, BankStocksExt } from "@/app/lib/db/definitions";
 import {
     bankGetAccs,
-    bankGetMovs,
-    bankGetStocks
+    bankGetMovs
 } from "@/app/lib/db/api_banks";
 import ActiveTag from "@/app/ui/components/active_tag";
-import { DelAccButton } from "@/app/ui/components/buttons";
+import { DelAccButton, DelMovButton } from "@/app/ui/components/buttons";
 import clsx from 'clsx';
 
 /**
@@ -95,7 +94,7 @@ export async function MovsTable(
     let errmessage = null;
     
     try {
-        movs = await bankGetMovs({query, df, dt, page: currentPage,limit});
+        movs = await bankGetMovs({endpoint: "movs", query, df, dt, page: currentPage,limit});
     }
     catch (err: any) {
         if (err instanceof TypeError || err.name === "PB_ERR_WRONG_DATE_RANGE") {
@@ -144,7 +143,7 @@ export async function MovsTable(
                                 {acc.value.toLocaleString('es-ES', {style:'currency', currency: 'EUR'})}
                             </td>
                             <td className="whitespace-nowrap px-3 py-3">{acc.notes}</td>
-                            <td className="whitespace-nowrap px-3 py-3"><DelAccButton id={acc.id} /></td>
+                            <td className="whitespace-nowrap px-3 py-3"><DelMovButton id={acc.id} endpoint={"movs"} /></td>
                         </tr>
                     )
                 }):""}
@@ -176,7 +175,7 @@ export async function StocksTable(
     let errmessage = null;
     
     try {
-        movs = await bankGetStocks({query, df, dt, page: currentPage,limit});
+        movs = await bankGetMovs({endpoint: "stocks", query, df, dt, page: currentPage,limit});
     }
     catch (err: any) {
         if (err instanceof TypeError || err.name === "PB_ERR_WRONG_DATE_RANGE") {
@@ -219,7 +218,7 @@ export async function StocksTable(
                             )}>
                                 {acc.amount.toLocaleString("de-DE")}
                             </td>
-                            <td className="whitespace-nowrap px-3 py-3"><DelAccButton id={acc.id} /></td>
+                            <td className="whitespace-nowrap px-3 py-3"><DelMovButton id={acc.id} endpoint={"stocks"} /></td>
                         </tr>
                     )
                 }):""}

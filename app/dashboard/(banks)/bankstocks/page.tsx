@@ -2,7 +2,7 @@ import { StocksTable } from "@/app/ui/components/banks/tables";
 import { PresentationChartLineIcon } from "@heroicons/react/24/outline";
 import SearchBar from "@/app/ui/components/banks/searchbar";
 import Pagination from "@/app/ui/components/banks/pagination";
-import { bankCountStocks } from "@/app/lib/db/api_banks";
+import { bankCountMovs } from "@/app/lib/db/api_banks";
 
 /**
  * <Page />
@@ -25,7 +25,7 @@ export default async function Page({
   const currentLimit = searchParams?.limit || "20";
   const df = searchParams?.df || '';
   const dt = searchParams?.dt || '';
-  const totalRows = await bankCountStocks(query, df, dt);
+  const totalRows = await bankCountMovs("stocks", query, df, dt);
   const totalPages = Math.ceil(totalRows / Number(currentLimit));
 
   // Sanitize

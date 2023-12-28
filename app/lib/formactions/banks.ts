@@ -5,7 +5,7 @@
  * File where form actions are defined for Banks section.
  * 
  */
-import { bankCreateAcc, bankDeleteAcc } from "@/app/lib/db/api_banks";
+import { bankCreateAcc, bankDeleteAcc, bankDeleteMov } from "@/app/lib/db/api_banks";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -91,5 +91,31 @@ export async function formDeleteAccount(id: number) {
     const res = await bankDeleteAcc(id);
     
     revalidatePath("/dashboard/bankaccs");
+    return {}
+}
+
+
+/**
+ * formDeleteMov()
+ * 
+ * Form action to remove a bank movement
+ * 
+ * @param endpoint 
+ * @param id 
+ * @returns 
+ */
+export async function formDeleteMov(endpoint: string, id: number) {
+    const res = await bankDeleteMov(endpoint, id);
+    
+    if (endpoint === "movs" ) {
+        revalidatePath("/dashboard/bankmovs");
+    }
+    else if (endpoint === "stocks" ) {
+        revalidatePath("/dashboard/bankstocks");
+    }
+    else {
+        revalidatePath("/dashboard/bankfunds");
+    }
+    
     return {}
 }

@@ -127,16 +127,16 @@ export async function bankDeleteAcc(id: number) {
 /**
  * bankGetMovs()
  * 
- * Get the list of bank movements
+ * Get the list of bank/stock/funds movements
  * 
  * @returns 
  */
 export async function bankGetMovs(
-    {query, df, dt, page, limit}: 
-    {query?: string, df: string, dt: string, page?: string, limit?: string}
+    {endpoint, query, df, dt, page, limit}: 
+    {endpoint: string, query?: string, df: string, dt: string, page?: string, limit?: string}
 ) {
     noStore();
-    let url = BASE_URL + '/banks/movs';
+    let url = BASE_URL + '/banks/' + endpoint;
     let querystr = [];
 
     if (query) {
@@ -182,13 +182,13 @@ export async function bankGetMovs(
 /**
  * bankCountMovs()
  * 
- * Get the amount of bank movements
+ * Get the amount of bank/stocks/funds movements
  * 
  * @returns 
  */
-export async function bankCountMovs(query: string, df: string, dt: string) {
+export async function bankCountMovs(endpoint: string, query: string, df: string, dt: string) {
     noStore();
-    let url = BASE_URL + '/banks/movs/count';
+    let url = BASE_URL + '/banks/' + endpoint + '/count';
     let querystr = [];
 
     if (query) {
@@ -222,97 +222,46 @@ export async function bankCountMovs(query: string, df: string, dt: string) {
 
 
 /**
- * bankGetStocks()
+ * bankDeleteMov()
  * 
- * Get the list of stock movements
+ * API to delete a bank account
  * 
+ * @param id 
  * @returns 
  */
-export async function bankGetStocks(
-    {query, df, dt, page, limit}: 
-    {query?: string, df: string, dt: string, page?: string, limit?: string}
-) {
+export async function bankDeleteMov(endpoint: string, id: number) {
     noStore();
-    let url = BASE_URL + '/banks/stocks';
-    let querystr = [];
+    let res = null;
+    let data = null;
 
-    if (query) {
-        querystr.push("query="+query);
+    try {
+        res = await fetch(BASE_URL + '/banks/' + endpoint + '/'+id, {
+            next: {
+                revalidate: 0
+            },
+            method: "DELETE",
+        })
+        data = await res.json();
     }
-    if (df) {
-        querystr.push("df="+df);
-    }
-    if (dt) {
-        querystr.push("dt="+dt);
-    }
-    if (page) {
-        querystr.push("page="+page);
-    }
-    if (limit) {
-        querystr.push("limit="+limit);
-    }
-
-    if (querystr.length>0) {
-        url += "?" + querystr.join("&");
-    }
-
-    const res = await fetch(url, {
-        next: {
-            revalidate: 10
+    catch (err) {
+        console.log(err);
+        res = { status: -1}
+        if (err instanceof TypeError) {
+            data = {
+                err: "TypeError",
+                message: "Cannot connect to backend to post data."
+            }
         }
-    });
-
-    let ret = [];
-    if( res.status === 200 ) {
-        ret = await res.json();
-    }
-    else {
-        let err = await res.json();
-        
-        throw {name: err.err, message: err.message};
-    }
-
-    return ret;
-}
-
-
-/**
- * bankCountStocks()
- * 
- * Get the amount of stock movements
- * 
- * @returns 
- */
-export async function bankCountStocks(query: string, df: string, dt: string) {
-    noStore();
-    let url = BASE_URL + '/banks/stocks/count';
-    let querystr = [];
-
-    if (query) {
-        querystr.push("query="+query);
-    }
-    if (df) {
-        querystr.push("df="+df);
-    }
-    if (dt) {
-        querystr.push("dt="+dt);
-    }
-
-    if (querystr.length>0) {
-        url += "?" + querystr.join("&");
-    }
-
-    const res = await fetch(url, {
-        next: {
-            revalidate: 10
+        else {
+            data = {
+                err: "Unexpected error",
+                message: "An unexpected error occurred."
+            }
         }
-    });
-    let ret = 0;
-
-    if( res.status===200 ) { 
-        const resjson = await res.json();
-        ret = resjson.count;
     }
 
-    return ret;
+    return {
+        status: res.status,
+        data: data
+    }
 }
