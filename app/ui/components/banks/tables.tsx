@@ -86,20 +86,23 @@ export async function AccountsTable() {
  * 
  * @returns <AccountsTable />
  */
-export async function MovsTable({query,currentPage,limit}: {query: string; currentPage: string; limit: string;}) {
+export async function MovsTable(
+    {query,df,dt,currentPage,limit}: 
+    {query: string; df: string; dt: string; currentPage: string; limit: string;}
+) {
     let movs = null;
     let errmessage = null;
     
     try {
-        movs = await bankGetMovs({query, page: currentPage,limit});
+        movs = await bankGetMovs({query, df, dt, page: currentPage,limit});
     }
-    catch (err: unknown) {
-        if (err instanceof TypeError) {
+    catch (err: any) {
+        if (err instanceof TypeError || err.name === "PB_ERR_WRONG_DATE_RANGE") {
             errmessage = "[" + err.name + "]: " + err.message;
         }
         else {
             console.log(err);
-            errmessage = "Unknown error occurred."
+            errmessage = ("[" + err?.name + "]: " + err?.message) || "Unknown error occurred."
         }
     }
 

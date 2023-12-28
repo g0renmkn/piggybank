@@ -19,12 +19,16 @@ export default async function Page({
     query?: string;
     page?: string;
     limit?: string;
+    df: string;
+    dt: string;
   };
 }) {
   let query = searchParams?.query || '';
   const currentPage = searchParams?.page || "0";
   const currentLimit = searchParams?.limit || "20";
-  const totalRows = await bankCountMovs(query);
+  const df = searchParams?.df || '';
+  const dt = searchParams?.dt || '';
+  const totalRows = await bankCountMovs(query, df, dt);
   const totalPages = Math.ceil(totalRows / Number(currentLimit));
 
   // Sanitize
@@ -35,7 +39,7 @@ export default async function Page({
     <div>
       <div className="flex flex-row"><WalletIcon2 className="w-6 h-6 stroke-2" /><h1 className="text-lg px-2">Bank movements</h1></div>
       <SearchBar placeholder={"Enter query"} defaultLimit={currentLimit} />
-      <MovsTable query={query} currentPage={currentPage} limit={currentLimit} />
+      <MovsTable query={query} currentPage={currentPage} limit={currentLimit} df={df} dt={dt}/>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={Number(totalPages)} />
       </div>

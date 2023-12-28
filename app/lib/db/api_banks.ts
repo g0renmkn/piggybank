@@ -131,13 +131,22 @@ export async function bankDeleteAcc(id: number) {
  * 
  * @returns 
  */
-export async function bankGetMovs({query, page, limit}: {query?: string, page?: string, limit?: string}) {
+export async function bankGetMovs(
+    {query, df, dt, page, limit}: 
+    {query?: string, df: string, dt: string, page?: string, limit?: string}
+) {
     noStore();
     let url = BASE_URL + '/banks/movs';
     let querystr = [];
 
     if (query) {
         querystr.push("query="+query);
+    }
+    if (df) {
+        querystr.push("df="+df);
+    }
+    if (dt) {
+        querystr.push("dt="+dt);
     }
     if (page) {
         querystr.push("page="+page);
@@ -155,9 +164,18 @@ export async function bankGetMovs({query, page, limit}: {query?: string, page?: 
             revalidate: 10
         }
     });
-    const resjson = await res.json();
 
-    return resjson;
+    let ret = [];
+    if( res.status === 200 ) {
+        ret = await res.json();
+    }
+    else {
+        let err = await res.json();
+        
+        throw {name: err.err, message: err.message};
+    }
+
+    return ret;
 }
 
 
@@ -168,13 +186,19 @@ export async function bankGetMovs({query, page, limit}: {query?: string, page?: 
  * 
  * @returns 
  */
-export async function bankCountMovs(query: string) {
+export async function bankCountMovs(query: string, df: string, dt: string) {
     noStore();
     let url = BASE_URL + '/banks/movs/count';
     let querystr = [];
 
     if (query) {
         querystr.push("query="+query);
+    }
+    if (df) {
+        querystr.push("df="+df);
+    }
+    if (dt) {
+        querystr.push("dt="+dt);
     }
 
     if (querystr.length>0) {
@@ -186,7 +210,12 @@ export async function bankCountMovs(query: string) {
             revalidate: 10
         }
     });
-    const resjson = await res.json();
+    let ret = 0;
 
-    return resjson.count;
+    if( res.status===200 ) { 
+        const resjson = await res.json();
+        ret = resjson.count;
+    }
+
+    return ret;
 }
