@@ -50,6 +50,17 @@ export type BankStocks = {
     amount: number;
 }
 
+// Table: bank_stock_movs extended
+export type BankStocksExt = {
+    id: number;
+    acc_id: number;
+    date: string;
+    asset: number;
+    amount: number;
+    asset_name: string;
+    acc_name: string;
+}
+
 // Table: bank_fund_movs
 export type BankFunds = {
     id: number;

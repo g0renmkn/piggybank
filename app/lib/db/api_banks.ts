@@ -219,3 +219,100 @@ export async function bankCountMovs(query: string, df: string, dt: string) {
 
     return ret;
 }
+
+
+/**
+ * bankGetStocks()
+ * 
+ * Get the list of stock movements
+ * 
+ * @returns 
+ */
+export async function bankGetStocks(
+    {query, df, dt, page, limit}: 
+    {query?: string, df: string, dt: string, page?: string, limit?: string}
+) {
+    noStore();
+    let url = BASE_URL + '/banks/stocks';
+    let querystr = [];
+
+    if (query) {
+        querystr.push("query="+query);
+    }
+    if (df) {
+        querystr.push("df="+df);
+    }
+    if (dt) {
+        querystr.push("dt="+dt);
+    }
+    if (page) {
+        querystr.push("page="+page);
+    }
+    if (limit) {
+        querystr.push("limit="+limit);
+    }
+
+    if (querystr.length>0) {
+        url += "?" + querystr.join("&");
+    }
+
+    const res = await fetch(url, {
+        next: {
+            revalidate: 10
+        }
+    });
+
+    let ret = [];
+    if( res.status === 200 ) {
+        ret = await res.json();
+    }
+    else {
+        let err = await res.json();
+        
+        throw {name: err.err, message: err.message};
+    }
+
+    return ret;
+}
+
+
+/**
+ * bankCountStocks()
+ * 
+ * Get the amount of stock movements
+ * 
+ * @returns 
+ */
+export async function bankCountStocks(query: string, df: string, dt: string) {
+    noStore();
+    let url = BASE_URL + '/banks/stocks/count';
+    let querystr = [];
+
+    if (query) {
+        querystr.push("query="+query);
+    }
+    if (df) {
+        querystr.push("df="+df);
+    }
+    if (dt) {
+        querystr.push("dt="+dt);
+    }
+
+    if (querystr.length>0) {
+        url += "?" + querystr.join("&");
+    }
+
+    const res = await fetch(url, {
+        next: {
+            revalidate: 10
+        }
+    });
+    let ret = 0;
+
+    if( res.status===200 ) { 
+        const resjson = await res.json();
+        ret = resjson.count;
+    }
+
+    return ret;
+}
