@@ -7,6 +7,7 @@
 import { Card } from "@/app/ui/components/cards";
 import { banksSummary } from "@/app/lib/db/api_summaries";
 import { Table } from "@/app/ui/components/table";
+import { Chart } from "@/app/ui/components/charts";
 
 /**
  * <Page />
@@ -32,7 +33,7 @@ export default async function Page() {
           <div className="flex flex-col gap-6 col-start-1">
             <Card title="Cash" value={result.movs.total.toLocaleString("de-DE", { style: "currency", currency: "EUR" })} />
             <Card title="Cash distribution chart" value="chart">
-              <p>Chart Component</p>
+              <Chart data={result.movs.accs.map((item:any) => {return {name: item.name, value: item.balance}})} />
             </Card>
             <Table 
               cols={["Account", "Balance"]} 
@@ -43,7 +44,7 @@ export default async function Page() {
           <div className="flex flex-col gap-6">
             <Card title="Stocks" value={result.stocks.total.toLocaleString("de-DE", { style: "currency", currency: "EUR" })} />
             <Card title="Stocks distribution chart" value="chart">
-              <p>Chart Component</p>
+              <Chart data={result.stocks.accs.map((item:any) => {return {name: item.name, value: item.balance}})} />
             </Card>
             <Table 
               cols={["Account", "Balance"]} 
@@ -54,7 +55,7 @@ export default async function Page() {
           <div className="flex flex-col gap-6">
             <Card title="Funds" value={result.funds.total.toLocaleString("es-ES", { style: "currency", currency: "EUR" })} />
             <Card title="Funds distribution chart" value="chart">
-              <p>Chart Component</p>
+              <Chart data={result.funds.accs.map((item:any) => {return {name: item.name, value: item.balance}})} />
             </Card>
             <Table 
               cols={["Account", "Balance"]} 
