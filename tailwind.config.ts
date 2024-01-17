@@ -11,11 +11,24 @@ const config: Config = {
       colors: {
         /* Custom color names for the theme */
         background: {
-          1: "#000511"
+          0: "#00030c",
+          1: "#050b19",
+          2: "#081021",
+          3: "#151f38",
+          4: "#435d99",
         },
-        text: {
-          1: "#7c8aad"
+        primary: {
+          normal: "#7c8aad",
+          bright: "#d7ddea",
+          dark: "#112351",
         }
+      },
+      fontFamily: {
+        genos: ['var(--font-genos)'],
+        grotesk: ['var(--font-grotesk)'],
+        inter: ['var(--font-inter)'],
+        josefin: ['var(--font-josefin)'],
+        overlock: ['var(--font-overlock)'],
       }
     },
   },
