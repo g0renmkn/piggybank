@@ -1,5 +1,5 @@
 'use client';
-import { MouseEventHandler, ReactNode, useState } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -20,22 +20,22 @@ export type MenuSubItemType = {
  * @param param0 
  * @returns 
  */
-export function NavLink({item, onClick}:{item: MenuSubItemType, onClick?: MouseEventHandler}) {
+export function NavLink({item}:{item: MenuSubItemType}) {
     const pathname = usePathname();
     
+    /* group-hover is included for mobile version (See MenuGroup) */
     return (
-        <Link 
+        <Link
             className={clsx(
-                "flex flex-row grow hover:bg-background-3 md:rounded-r-full md:pl-5 md:pt-1 md:pb-1 items-center justify-center md:justify-normal",
+                "flex flex-row grow hover:bg-background-3 md:rounded-r-full md:pl-5 md:pt-1 md:pb-1 items-center justify-center md:justify-normal group-hover:pb-2 group-hover:pt-2 md:group-hover:pb-1 md:group-hover:pt-1",
                 {
-                    "bg-background-3": pathname === item.link
+                    "bg-background-3": pathname === item.link,
                 }
             )}
             href={item.link || ""}
-            onClick={onClick}
         >
             {item.icon}
-            <div className="hidden md:inline md:pl-2">{item.name}</div>
+            <div className="hidden md:inline md:pl-2 group-hover:inline">{item.name}</div>
         </Link>
     )
 }
@@ -48,13 +48,8 @@ export function NavLink({item, onClick}:{item: MenuSubItemType, onClick?: MouseE
  * @returns 
  */
 export function MenuGroup({item}:{item: MenuSubItemType, selected?: boolean}) {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
     const pathname = usePathname();
     let pathfound = false;
-
-    const toggle = () => {
-        setIsOpen(old => !old);
-    }
 
     if( item.subitems ) {
         for( let i=0; i<item.subitems.length; i++ ) {
@@ -65,7 +60,7 @@ export function MenuGroup({item}:{item: MenuSubItemType, selected?: boolean}) {
     }
 
     return (
-        <div className="grow flex flex-col">
+        <div className="grow flex flex-col group">
 
             {/* Icon and/or section name */}
             <div className={clsx(
@@ -75,7 +70,7 @@ export function MenuGroup({item}:{item: MenuSubItemType, selected?: boolean}) {
                 }
             )}>
                 <div className="">
-                    <div className="md:hidden" onClick={toggle}>{item.icon}</div>
+                    <div className="md:hidden">{item.icon}</div>
                     <div className="hidden md:inline md:text-xs md:text-primary-normal md:pl-5">{item.name}</div>
                 </div>
             </div>
@@ -83,20 +78,15 @@ export function MenuGroup({item}:{item: MenuSubItemType, selected?: boolean}) {
             {/* Section submenu */}
             {
                 item.subitems &&
-                <div className="relative w-full flex flex-col">
-                    <div className={clsx(
-                        "absolute md:static md:inline w-full bg-background-1 md:bg-transparent",
+                <div className="static w-full">
+                    <div className="hidden absolute md:static md:inline w-full bg-background-1 md:bg-transparent group-hover:flex group-hover:flex-row left-0 md:group-hover:flex-col" >
                         {
-                            "hidden": !isOpen
+                            item.subitems.map((subitem) => {
+                                return (
+                                    <NavLink key={subitem.key} item={subitem} />
+                                );
+                            })
                         }
-                    )} >
-                    {
-                        item.subitems.map((subitem) => {
-                            return (
-                                <NavLink key={subitem.key} item={subitem} onClick={toggle} />
-                            );
-                        })
-                    }
                     </div>
                 </div>
             }
