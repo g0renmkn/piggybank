@@ -1,4 +1,3 @@
-'use client';
 import Image from 'next/image';
 import { 
     AccountBalance,
@@ -17,43 +16,38 @@ import { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import  {
+    MenuItem,
+    MenuSubItemType
+} from '@/app/ui/dashboard/menu';
 
 
-type MenuSubItem = {
-    key: string;
-    name: string;
-    icon: ReactNode;
-    link: string | null;
-    subitems?: MenuSubItem[];
-}
-
-
-/**
- * <NavLink />
- * 
- * @param param0 
- * @returns 
- */
-function NavLink({item, selected}:{item: MenuSubItem, selected?: boolean}) {
-    return (
-        <div 
-            key={`${item.key}-desk`} 
-            className={clsx(
-                "hover:bg-background-3 pl-5 pb-1 pt-1 rounded-r-full text-primary-bright",
-                {
-                    "bg-background-3": selected === true
-                }
-            )}
-        >
-            <Link href={item.link || ""}>
-                {
-                    (item.icon != null) && item.icon
-                }
-                <span className="pl-2">{item.name}</span>
-            </Link>
-        </div>
-    )
-}
+// /**
+//  * <NavLink />
+//  * 
+//  * @param param0 
+//  * @returns 
+//  */
+// function NavLink({item, selected}:{item: MenuSubItem, selected?: boolean}) {
+//     return (
+//         <div 
+//             key={`${item.key}-desk`} 
+//             className={clsx(
+//                 "hover:bg-background-3 pl-5 pb-1 pt-1 rounded-r-full text-primary-bright",
+//                 {
+//                     "bg-background-3": selected === true
+//                 }
+//             )}
+//         >
+//             <Link href={item.link || ""}>
+//                 {
+//                     (item.icon != null) && item.icon
+//                 }
+//                 <span className="pl-2">{item.name}</span>
+//             </Link>
+//         </div>
+//     )
+// }
 
 /**
  * <DashboardLayout />
@@ -66,16 +60,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-    const pathname = usePathname();
-
-    const overviewItem = {
-        key: "mnuOverview",
-        name: "Mierdon",
-        icon: <GridViewOutlined />,
-        link: "/dashboard"
-    }
-
-    const menuitems: MenuSubItem[] = [
+    const menuitems: MenuSubItemType[] = [
         {
             key: "mnuOverview",
             name: "Overview",
@@ -162,70 +147,105 @@ export default function DashboardLayout({
         },
     ];
 
-
     return (
+        /* Main container for the whole page */
         <div className="flex h-screen flex-col md:flex-row">
-            {/* --- Desktop Mode Menu --- */}
-            <div className="hidden w-48 md:flex flex-col">
-                <div className="flex flex-row justify-center pb-10">
+
+            {/* Menu panel to the left (or top, on mobile) */}
+            <div className="flex flex-row h-16 md:h-full md:w-48 md:flex-col bg-background-1 text-primary-bright">
+
+                {/* Image container */}
+                <div className="h-16 w-16 md:h-32 md:w-32 md:ml-5 md:mb-5 relative aspect-square">
                     <Image
                         src="/logo_dashboard.png"
-                        width={128}
-                        height={128}
+                        fill={true}
                         alt="Piggybank logo"
                         className="object-center"
                     />
                 </div>
-                
-                {/* Navlinks menu */}
-                <div className="flex h-full flex-col">
+
+                {/* Menu Items container */}
+                <div className="w-full flex flex-row md:flex-col">
                     {
                         menuitems.map((item) => {
                             return (
-                                /* Section div */
-                                <div key={`${item.key}-desk`} className="pb-5">
-                                    {/* If the item is just a menu item, add it like so */}
-                                    {(item.link !== null) && <NavLink key={item.key} item={item} selected={pathname === item.link} />}
-                                    {/* If instead the item is a group item, just show the group header */}
-                                    {(item.link === null) && <div key={`${item.key}-desk`} className="pl-5 text-xs font-bold text-primary-bright">{item.name}</div>}
-
-                                    {/* Menu item */}
-                                    {
-                                        item.subitems && item.subitems.map((subitem) => {
-                                            return (
-                                                <NavLink key={subitem.key} item={subitem} selected={pathname === subitem.link} />
-                                            )
-                                        })
-                                    }                                    
-                                </div>
+                                <MenuItem key={item.key} item={item} />
                             );
                         })
                     }
                 </div>
             </div>
-
-            {/* --- Mobile Mode Menu --- */}
-            <div className="md:hidden flex justify-center flex-row gap-2 rounded-lg bg-background-1 px-2 text-primary-bright">
-                <div className="py-2">
-                    <Image
-                        src="/logo_dashboard.png"
-                        width={48}
-                        height={48}
-                        alt="Piggybank logo"
-                        className="object-center"
-                    />
-                </div>
-                <div className="flex flex-row gap-2 grow items-center justify-center">
-                    {
-                        menuitems.map((item) => {
-                            return (
-                                <div key={`${item.key}-mobile`} className="grow h-full hover:bg-background-3 grid place-items-center"><div key={`${item.key}-mobile2`}>{item.icon}</div></div>
-                            );
-                        })
-                    }
-                </div>
+            
+            {/* Right (or botttom, on mobile) panel, where each individual page will be shown */}
+            <div className="w-full px-3 py-3">
+                {children}
             </div>
-            <div className="w-full px-6 py-6">{children}</div>
         </div>
     );
+
+    // return (
+    //     <div className="flex h-screen flex-col md:flex-row">
+    //         {/* --- Desktop Mode Menu --- */}
+    //         <div className="hidden w-48 md:flex flex-col">
+    //             <div className="flex flex-row justify-center pb-10">
+    //                 <Image
+    //                     src="/logo_dashboard.png"
+    //                     width={128}
+    //                     height={128}
+    //                     alt="Piggybank logo"
+    //                     className="object-center"
+    //                 />
+    //             </div>
+                
+    //             {/* Navlinks menu */}
+    //             <div className="flex h-full flex-col">
+    //                 {
+    //                     menuitems.map((item) => {
+    //                         return (
+    //                             /* Section div */
+    //                             <div key={`${item.key}-desk`} className="pb-5">
+    //                                 {/* If the item is just a menu item, add it like so */}
+    //                                 {(item.link !== null) && <NavLink key={item.key} item={item} selected={pathname === item.link} />}
+    //                                 {/* If instead the item is a group item, just show the group header */}
+    //                                 {(item.link === null) && <div key={`${item.key}-desk`} className="pl-5 text-xs font-bold text-primary-bright">{item.name}</div>}
+
+    //                                 {/* Menu item */}
+    //                                 {
+    //                                     item.subitems && item.subitems.map((subitem) => {
+    //                                         return (
+    //                                             <NavLink key={subitem.key} item={subitem} selected={pathname === subitem.link} />
+    //                                         )
+    //                                     })
+    //                                 }                                    
+    //                             </div>
+    //                         );
+    //                     })
+    //                 }
+    //             </div>
+    //         </div>
+
+    //         {/* --- Mobile Mode Menu --- */}
+    //         <div className="md:hidden flex justify-center flex-row gap-2 rounded-lg bg-background-1 px-2 text-primary-bright">
+    //             <div className="py-2">
+    //                 <Image
+    //                     src="/logo_dashboard.png"
+    //                     width={48}
+    //                     height={48}
+    //                     alt="Piggybank logo"
+    //                     className="object-center"
+    //                 />
+    //             </div>
+    //             <div className="flex flex-row gap-2 grow items-center justify-center">
+    //                 {
+    //                     menuitems.map((item) => {
+    //                         return (
+    //                             <div key={`${item.key}-mobile`} className="grow h-full hover:bg-background-3 grid place-items-center"><div key={`${item.key}-mobile2`}>{item.icon}</div></div>
+    //                         );
+    //                     })
+    //                 }
+    //             </div>
+    //         </div>
+    //         <div className="w-full px-6 py-6">{children}</div>
+    //     </div>
+    // );
 }
