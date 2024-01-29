@@ -162,7 +162,7 @@ export default function DashboardLayout({
         <div className="flex h-screen flex-col md:flex-row">
 
             {/* Menu panel to the left (or top, on mobile) */}
-            <div className="flex flex-row h-16 md:h-full md:w-48 md:flex-col bg-background-1 md:bg-transparent text-primary-bright">
+            <div className="flex flex-row h-16 md:h-full md:w-48 md:flex-col bg-background-1 md:bg-transparent text-primary-brighter">
 
                 {/* Image container */}
                 <div className="h-16 w-16 md:h-32 md:w-32 md:ml-5 md:mb-5 relative aspect-square">
