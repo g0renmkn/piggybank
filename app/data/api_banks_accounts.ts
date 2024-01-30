@@ -113,3 +113,26 @@ export async function bankCountAccs(
 
     return ret;
 }
+
+export async function bankSumAccs() {
+    noStore();
+    let url = BASE_URL + '/sum/banks';
+
+    const res = await fetch(url, {
+        next: {
+            revalidate: 10
+        }
+    });
+
+    let ret = [];
+    if( res.status === 200 ) {
+        ret = await res.json();
+    }
+    else {
+        let err = await res.json();
+        
+        throw {name: err.err, message: err.message};
+    }
+
+    return ret;
+}

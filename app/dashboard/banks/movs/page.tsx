@@ -2,20 +2,34 @@ import {
     ReceiptLong,
 } from '@mui/icons-material';
 import { BankAccountCard } from '@/app/ui/dashboard/bank_account_card';
-// ToDo: Remove the mock and properly retrieve data via API
-import { mockAccounts } from '@/app/data/mock';
+import { bankSumAccs } from '@/app/data/api_banks_accounts';
 
 
-export default function Page() {
+export default async function Page(
+    {searchParams}: 
+    {
+        searchParams?: {
+            query?: string;
+            page?: string;
+            limit?: string;
+            dir?: string;
+            orderby?: string;
+            acc_id?: string;
+        };
+    }
+) {
+    const banksSummary = await bankSumAccs();
+    const movs = banksSummary.movs.accs;
+
     return (
         <div className="flex flex-col">
             <h1 className="text-lg font-bold"><ReceiptLong />Bank Movements</h1>
 
             <div className="flex flex-row flex-wrap gap-5 mt-5 pt-5 px-5 justify-center">
                 {
-                    mockAccounts.map((acc, idx) => {
+                    movs.map((acc: any) => {
                         return (
-                            <BankAccountCard key={acc.name} item={acc} selected={idx===0}/>
+                            <BankAccountCard key={acc.name} item={acc} />
                         )
                     })
                 }
