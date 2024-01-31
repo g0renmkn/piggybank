@@ -19,7 +19,7 @@ import clsx from 'clsx';
  */
 export function Th(
     {children, className, orderBy}: 
-    {children: React.ReactNode; className?: string; orderBy?: string | undefined}
+    {children?: React.ReactNode; className?: string; orderBy?: string | undefined}
 ) {
     return (
         <CustomTh className={className} orderBy={orderBy}>
@@ -38,7 +38,7 @@ export function Th(
  */
 export function THead(
     {children, className}: 
-    {children: React.ReactNode; className?: string}
+    {children?: React.ReactNode; className?: string}
 ) {
     return (
         <thead className={`${className} text-left text-primary-brightest`}>
@@ -59,7 +59,7 @@ export function THead(
  */
 export function Td(
     {children, className}: 
-    {children: React.ReactNode; className?: string}
+    {children?: React.ReactNode; className?: string}
 ) {
     return (
         <td className={`${className} pl-5 first:py-5`}>
@@ -78,7 +78,7 @@ export function Td(
  */
 export function TBody(
     {children, className}: 
-    {children: React.ReactNode; className?: string}
+    {children?: React.ReactNode; className?: string}
 ) {
     return (
         <tbody className={`${className}`}>
@@ -97,7 +97,7 @@ export function TBody(
  */
 export function TRow(
     {children, className}: 
-    {children: React.ReactNode; className?: string}
+    {children?: React.ReactNode; className?: string}
 ) {
     return (
         <tr className={`${className} border-t border-primary-darker`}>
@@ -116,7 +116,7 @@ export function TRow(
  */
 export function Table(
     {children, className, totalPages}: 
-    {children: React.ReactNode; className?: string; totalPages: number}
+    {children?: React.ReactNode; className?: string; totalPages: number}
 ) {
     return (
         <div className="w-full">
