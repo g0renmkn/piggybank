@@ -5,7 +5,7 @@ import {
     dataGetAssets,
     dataCountAssets
 } from '@/app/data/api_data_assets';
-import Image from 'next/image';
+import LogoImage from '@/app/ui/components/logoimage';
 import {
     Table,
     THead,
@@ -54,7 +54,7 @@ export default async function Page(
                                     <Td>
                                         <div className="h-full flex flex-row items-center">
                                             <div className="w-[32px] h-[32px] relative rounded-full overflow-hidden mr-2 border border-primary-normal">
-                                                <Image src={"/accounts/" + ass.pfp} alt="logo" fill={true} />
+                                                <LogoImage src={"/accounts/" + ass.pfp} />
                                             </div>
                                             {ass.name}
                                         </div>

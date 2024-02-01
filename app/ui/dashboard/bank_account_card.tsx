@@ -6,7 +6,7 @@
  * 
  */
 import clsx from 'clsx';
-import Image from 'next/image';
+import LogoImage from '@/app/ui/components/logoimage';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -57,13 +57,13 @@ export function BankAccountCard(
         >
             <div className="flex flex-row">
                 <div className={clsx(
-                    "w-12 h-12 border overflow-hidden rounded-full",
+                    "w-12 h-12 border overflow-hidden rounded-full relative",
                     {
                         "border-primary-normal": !accountClosed,
                         "border-secondary-normal": accountClosed
                     }
                 )} >
-                    <Image src={"/accounts/"+item.pfp} width={64} height={64} alt="bank logo" />
+                    <LogoImage src={"/accounts/"+item.pfp} />
                 </div>
                 <div className="ml-5">
                     <h1 className="">{item.name}</h1>

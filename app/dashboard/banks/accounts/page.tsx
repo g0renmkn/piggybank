@@ -5,7 +5,7 @@ import {
     bankGetAccs,
     bankCountAccs
 } from '@/app/data/api_banks_accounts';
-import Image from 'next/image';
+import LogoImage from '@/app/ui/components/logoimage';
 import {
     Table,
     THead,
@@ -54,7 +54,7 @@ export default async function Page(
                                     <Td>
                                         <div className="h-full flex flex-row items-center">
                                             <div className="w-[32px] h-[32px] relative rounded-full overflow-hidden mr-2">
-                                                <Image src={"/accounts/" + acc.pfp} alt="account logo" fill={true} />
+                                                <LogoImage src={"/accounts/" + acc.pfp} />
                                             </div>
                                             {acc.name}
                                         </div>
