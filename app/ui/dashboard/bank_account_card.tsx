@@ -17,13 +17,14 @@ export type TBankAccount = {
     pfp: string;
     balance: number;
     acc_id: number;
+    closed: string;
 }
 
 
 /**
  * <BankAccountCard />
  * 
- * @param item Object containing the Card display data 
+ * @param item Object containing the Card display data
  * @returns <BankAccountCard />
  * 
  */
@@ -34,6 +35,7 @@ export function BankAccountCard(
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const currentAcc = Number(searchParams.get("acc_id")) || -1;
+    const accountClosed = (item.closed !== "");
    
     const createPageURL = (accID: number | string) => {
       const params = new URLSearchParams(searchParams);
@@ -44,22 +46,47 @@ export function BankAccountCard(
     
     return (
         <Link href={createPageURL(item.acc_id)} className={clsx(
-            "max-w-[300px] min-w-[150px] grow rounded-lg px-5 py-2 bg-background-1 hover:bg-background-3",
+            "max-w-[300px] min-w-[150px] grow rounded-lg px-5 py-2",
             {
-                "border boder-primary-normal bg-background-3": item.acc_id === currentAcc
+                "border boder-primary-normal bg-background-3": (item.acc_id === currentAcc) && (item.closed === ""),
+                "border boder-secondary-normal bg-background-d3": (item.acc_id === currentAcc) && (item.closed !== ""),
+                "bg-background-1 hover:bg-background-3 text-primary-normal": !accountClosed,
+                "bg-background-d1 hover:bg-background-d3 text-secondary-normal": accountClosed
             }
             )}
         >
             <div className="flex flex-row">
-                <div className="w-12 h-12 border overflow-hidden rounded-full">
+                <div className={clsx(
+                    "w-12 h-12 border overflow-hidden rounded-full",
+                    {
+                        "border-primary-normal": !accountClosed,
+                        "border-secondary-normal": accountClosed
+                    }
+                )} >
                     <Image src={"/accounts/"+item.pfp} width={64} height={64} alt="bank logo" />
                 </div>
                 <div className="ml-5">
                     <h1 className="">{item.name}</h1>
-                    <div className="text-xs bg-gradient w-fit px-2 rounded-md  bg-gradient-to-b from-background-3 to-background-2 to-70%">{item.iban}</div>
+                    <div className={clsx(
+                        "text-xs bg-gradient w-fit px-2 rounded-md to-70%",
+                        {
+                            "bg-gradient-to-b from-background-3 to-background-2": !accountClosed,
+                            "bg-gradient-to-b from-background-d3 to-background-d2": accountClosed
+                        }
+                    )}>
+                        {item.iban}
+                    </div>
                 </div>
             </div>
-            <div className="text-center text-2xl text-primary-brightest py-5">{item.balance.toLocaleString("de-DE", {style: "currency", currency: "EUR"})}</div>
+            <div className={clsx(
+                "text-center text-2xl py-5",
+                {
+                    "text-primary-brightest": !accountClosed,
+                    "text-secondary-brightest": accountClosed
+                }
+            )}>
+                {item.balance.toLocaleString("de-DE", {style: "currency", currency: "EUR"})}
+            </div>
         </Link>
     )
 }
