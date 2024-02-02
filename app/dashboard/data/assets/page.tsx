@@ -42,7 +42,7 @@ export default async function Page(
                     <THead>
                         <Th orderBy="id">ID</Th>
                         <Th orderBy="name">Asset</Th>
-                        <Th orderBy="asset_name">Type</Th>
+                        <Th orderBy="asset_type">Type</Th>
                         <Th>Description</Th>
                     </THead>
                     <TBody>
@@ -59,7 +59,7 @@ export default async function Page(
                                             {ass.name}
                                         </div>
                                     </Td>
-                                    <Td>{ass.asset_name}</Td>
+                                    <Td>{ass.asset_type}</Td>
                                     <Td>{ass.description}</Td>
                                 </TRow>
                             );
