@@ -187,7 +187,7 @@ export default function DashboardLayout({
             </div>
             
             {/* Right (or botttom, on mobile) panel, where each individual page will be shown */}
-            <div className="w-full px-3 py-3">
+            <div className="w-full md:px-10 py-3">
                 {children}
             </div>
         </div>

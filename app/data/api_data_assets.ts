@@ -17,8 +17,9 @@ import { BASE_URL } from '@/app/data/api_config';
  * @returns Assets object from the DB
  */
 export async function dataGetAssets(
-    {query, page, limit, dir, orderby}: 
+    {type, query, page, limit, dir, orderby}: 
     {
+        type?: string | number;
         query?: string;
         page?: string;
         limit?: string;
@@ -45,11 +46,15 @@ export async function dataGetAssets(
     if (orderby) {
         querystr.push("orderby="+orderby);
     }
+    if (type) {
+        querystr.push("type="+type);
+    }
 
     if (querystr.length>0) {
         url += "?" + querystr.join("&");
     }
 
+    console.log(`Fetching asset: ${url}`)
     const res = await fetch(url, {
         next: {
             revalidate: 10

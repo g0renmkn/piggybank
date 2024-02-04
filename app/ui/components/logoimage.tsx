@@ -29,7 +29,7 @@ export default function LogoImage(
         <Image
             className={className}
             src={fsafe} 
-            alt="logo" 
+            alt="logo"
             fill={true}
             onError={(e) => setFailsafe("/notfound.png")}
         />
