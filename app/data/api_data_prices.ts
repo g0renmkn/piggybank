@@ -17,7 +17,7 @@ import { BASE_URL } from '@/app/data/api_config';
  * @returns Prices object from the DB
  */
 export async function dataGetPrices(
-    {query, page, limit, dir, orderby, asset_id}: 
+    {query, page, limit, dir, orderby, asset_id, df, dt}: 
     {
         query?: string;
         page?: string;
@@ -25,6 +25,8 @@ export async function dataGetPrices(
         dir?: string;
         orderby?: string;
         asset_id?: string;
+        df?: string;
+        dt?: string;
     }
 ) {
     noStore();
@@ -48,6 +50,12 @@ export async function dataGetPrices(
     }
     if (asset_id) {
         querystr.push("asset_id="+asset_id);
+    }
+    if (df) {
+        querystr.push("df="+df);
+    }
+    if (dt) {
+        querystr.push("dt="+dt);
     }
 
     if (querystr.length>0) {

@@ -23,7 +23,7 @@ import { BASE_URL } from '@/app/data/api_config';
  * @returns Movements object from the DB
  */
 export async function bankGetMovs(
-    {query, page, limit, dir, orderby, acc_id}: 
+    {query, page, limit, dir, orderby, acc_id, df, dt}: 
     {
         query?: string;
         page?: string;
@@ -31,6 +31,8 @@ export async function bankGetMovs(
         dir?: string;
         orderby?: string;
         acc_id?: string;
+        df?: string;
+        dt?: string;
     }
 ) {
     noStore();
@@ -54,6 +56,12 @@ export async function bankGetMovs(
     }
     if (acc_id) {
         querystr.push("acc_id="+acc_id);
+    }
+    if (df) {
+        querystr.push("df="+df);
+    }
+    if (dt) {
+        querystr.push("dt="+dt);
     }
 
     if (querystr.length>0) {

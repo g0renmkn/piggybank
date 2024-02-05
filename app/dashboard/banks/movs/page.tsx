@@ -31,11 +31,16 @@ type MovResult = {
 
 
 function AccountTable(
-    {accID, totalPages, rows}: 
-    {accID: number; totalPages: number; rows: MovResult[]}
+    {accID, totalPages, rows, dateErrors}: 
+    {
+        accID: number;
+        totalPages: number;
+        rows: MovResult[];
+        dateErrors?: boolean;
+    }
 ) {
     return (
-        <Table className="w-full" totalPages={totalPages}>
+        <Table className="w-full" totalPages={totalPages} dateFilter dateErrors={dateErrors}>
             <THead>
                 {
                     (accID !== -1) && <>
@@ -100,17 +105,36 @@ export default async function Page(
             dir?: string;
             orderby?: string;
             acc_id?: string;
+            df: string;
+            dt: string;
         };
     }
 ) {
+    let movs = [];
+    let movCount = 0;
+    let dateErrors = false;
+
     const banksSummary = await bankSumAccs();
     const bankAccounts = banksSummary.movs.accs;
     const currentAcc = Number(searchParams?.acc_id) || -1;
     
     const currentLimit = Number(searchParams?.limit) || 10;
-    const movs = await bankGetMovs(searchParams || {});
-    const movCount = await bankCountMovs(searchParams || {});
+
+    try {
+        movs = await bankGetMovs(searchParams || {});
+        movCount = await bankCountMovs(searchParams || {});
+    }
+    catch (err: any) {
+        if (err instanceof TypeError  || err.name === "PB_ERR_WRONG_DATE_RANGE") {
+            dateErrors = true;
+        }
+        else {
+            console.log(err);
+        }
+    }
+
     const totalPages = Math.ceil(movCount / currentLimit);
+    
 
     return (
         <div className="flex flex-col">
@@ -128,8 +152,8 @@ export default async function Page(
                 </div>
             }
 
-            <div className="flex flex-col items-center w-3/4 mx-auto mt-10">
-                <AccountTable accID={currentAcc} totalPages={totalPages} rows={movs} />
+            <div className="flex flex-col items-center w-full mx-auto mt-10">
+                <AccountTable accID={currentAcc} totalPages={totalPages} rows={movs} dateErrors={dateErrors} />
             </div>
         </div>
     );

@@ -7,6 +7,7 @@
 import ResultsSelector from './results';
 import Pagination from "./pagination";
 import SearchBar from "./searchbar";
+import DateSearch from './datesearch';
 import CustomTh from "./th";
 import clsx from 'clsx';
 
@@ -115,8 +116,14 @@ export function TRow(
  * 
  */
 export function Table(
-    {children, className, totalPages}: 
-    {children?: React.ReactNode; className?: string; totalPages: number}
+    {children, className, totalPages, dateFilter, dateErrors}: 
+    {
+        children?: React.ReactNode;
+        className?: string;
+        totalPages: number;
+        dateFilter?: boolean;
+        dateErrors?: boolean;
+    }
 ) {
     return (
         <div className="w-full">
@@ -128,7 +135,10 @@ export function Table(
                 }
             )}
             >
-                <SearchBar className="grow w-full" />
+                <div className="grow w-full flex flex-col gap-2">
+                    <SearchBar className="" />
+                    {dateFilter && <DateSearch dateErrors={dateErrors} />}
+                </div>
                 <div className="flex-row flex">
                     <ResultsSelector />
                     <Pagination totalPages={totalPages} />

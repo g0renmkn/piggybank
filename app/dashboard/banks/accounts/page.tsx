@@ -37,7 +37,7 @@ export default async function Page(
         <div>
             <h1 className="text-lg font-bold pb-5"><ContactPageOutlined />Bank Accounts</h1>
 
-            <div className="flex flex-col items-center w-3/4 mx-auto">
+            <div className="flex flex-col items-center w-full mx-auto">
                 <Table className="w-full" totalPages={totalPages}>
                     <THead>
                         <Th orderBy="id">ID</Th>

@@ -54,7 +54,6 @@ export async function dataGetAssets(
         url += "?" + querystr.join("&");
     }
 
-    console.log(`Fetching asset: ${url}`)
     const res = await fetch(url, {
         next: {
             revalidate: 10

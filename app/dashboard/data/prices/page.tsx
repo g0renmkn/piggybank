@@ -36,15 +36,34 @@ export default async function Page(
             dir?: string;
             orderby?: string;
             asset_id?: string;
+            df?: string;
+            dt?: string;
         };
     }
 ) {
-    const assets = await dataGetPrices(searchParams || {});
-    const assCount = await dataCountPrices(searchParams || {});
+    let assets = [];
+    let assCount = 0;
+    let dateErrors = false;
+
     const currentLimit = Number(searchParams?.limit) || 10;
-    const totalPages = Math.ceil(assCount / currentLimit);
     const assetTypes = await staticGetAssetTypes();
 
+    // Get the assets and the asset count, but beware of errors
+    try {
+        assets = await dataGetPrices(searchParams || {});
+        assCount = await dataCountPrices(searchParams || {});
+    }
+    catch (err: any) {
+        if (err instanceof TypeError  || err.name === "PB_ERR_WRONG_DATE_RANGE") {
+            dateErrors = true;
+        }
+        else {
+            console.log(err);
+        }
+    }
+    const totalPages = Math.ceil(assCount / currentLimit);
+
+    // Prepare array of groupped assets
     const grouppedAssets = await Promise.all(assetTypes.map(async (e: any) => {
         return {
             key: e.id,
@@ -83,7 +102,7 @@ export default async function Page(
 
             {/* Table with the prices */}
             <div className="flex flex-col items-center w-full mx-auto">
-                <Table className="w-full" totalPages={totalPages}>
+                <Table className="w-full" totalPages={totalPages} dateFilter dateErrors={dateErrors}>
                     <THead>
                         <Th orderBy="id">ID</Th>
                         <Th orderBy="date">Date</Th>
