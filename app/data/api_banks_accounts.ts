@@ -136,3 +136,55 @@ export async function bankSumAccs() {
 
     return ret;
 }
+
+
+
+
+/**
+ * bankCreateAccs()
+ * 
+ * Create a new bank account
+ * 
+ * @param obj 
+ * @returns 
+ */
+export async function bankCreateAccs(obj: any) {
+    noStore();
+    let res = null;
+    let data = null;
+
+    try {
+        res = await fetch(BASE_URL + '/banks/accounts', {
+            next: {
+                revalidate: 0
+            },
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj),
+        })
+        data = await res.json();
+    }
+    catch (err) {
+        console.log(err);
+        res = { status: -1}
+        if (err instanceof TypeError) {
+            data = {
+                err: "TypeError",
+                message: "Cannot connect to backend to post data."
+            }
+        }
+        else {
+            data = {
+                err: "Unexpected error",
+                message: "An unexpected error occurred."
+            }
+        }
+    }
+
+    return {
+        status: res.status,
+        data: data
+    }
+}

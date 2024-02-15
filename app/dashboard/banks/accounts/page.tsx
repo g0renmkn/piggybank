@@ -14,6 +14,7 @@ import {
     TRow,
     Td,    
 } from '@/app/ui/components/table/table';
+import BankAccountForm from '@/app/ui/dashboard/bank_account_form';
 
 
 export default async function Page(
@@ -37,6 +38,13 @@ export default async function Page(
         <div>
             <h1 className="text-lg font-bold pb-5"><ContactPageOutlined />Bank Accounts</h1>
 
+            {/* CSV Form */}
+            <details className="w-fit mx-auto my-5 py-2 px-2 open:bg-background-2 rounded-md group cursor-pointer">
+                <summary><span className="group-open:hidden">Import CSV file</span></summary>
+                <BankAccountForm />
+            </details>
+
+            {/* Data table DIV */}
             <div className="flex flex-col items-center w-full mx-auto">
                 <Table className="w-full" totalPages={totalPages}>
                     <THead>
