@@ -1,14 +1,28 @@
 'use client';
-import { handleForm } from "@/app/ui/dashboard/bank_account_formaction";
+import { FormState, handleForm } from "@/app/ui/dashboard/bank_account_formaction";
 import clsx from "clsx";
-// import { revalidatePath } from "next/cache";
 import { useFormState } from 'react-dom';
+import { ModalMessage } from "@/app/ui/components/modal";
+import { useEffect, useState } from "react";
+
+
+
 
 
 export default function BankAccountForm() {
     const initialState = { message: null, errors: null };
-    const [state, dispatch] = useFormState(handleForm, initialState);
+    const [state, dispatch] = useFormState(localHandleForm, initialState);
+    const [msgVisible, setMsgVisibility] = useState(false);
+    const errMsgType = (state.error && state.error === "FRM_BNK_ACC_SUCCESS") ? "success": "error";
 
+    /* Local function wrapper to handle the form */
+    async function localHandleForm(prevState: FormState, formData: FormData) {
+        let ret = await handleForm(prevState, formData);
+
+        setMsgVisibility(true);
+        
+        return ret;
+    }
 
     return (
         <form action={dispatch} className="flex flex-col w-fit">
@@ -20,21 +34,13 @@ export default function BankAccountForm() {
                 Submit
             </button>
             {
-                state?.error && 
-                <div>
-                    <h1 className={clsx(
-                        {
-                            "text-green-700": state.error === "FRM_BNK_ACC_SUCCESS",
-                            "text-red-700": state.error !== "FRM_BNK_ACC_SUCCESS"
-                        }
-                    )}>{state.error}</h1>
-                    <p className={clsx(
-                        {
-                            "text-green-700": state.error === "FRM_BNK_ACC_SUCCESS",
-                            "text-red-700": state.error !== "FRM_BNK_ACC_SUCCESS"
-                        }
-                    )}>{state.message}</p>
-                </div>
+                msgVisible && 
+                <ModalMessage 
+                    title={state?.error || null}
+                    msg={state?.message || null}
+                    type={errMsgType}
+                    onClick={() => setMsgVisibility(false)}
+                />
             }
         </form>
     )

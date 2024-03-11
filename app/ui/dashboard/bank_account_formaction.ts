@@ -2,19 +2,18 @@
 import Papa from 'papaparse';
 import { bankCreateAccs } from '@/app/data/api_banks_accounts';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 
-type State = {
+export type FormState = {
     error?: string | null;
     message?: string |null;
 }
 
 
-export async function handleForm(prevState: State, formData: FormData) {
+export async function handleForm(prevState: FormState, formData: FormData) {
 
     const fich = formData.get("fileUpload") as File;
-    let formRetObj: State = {
+    let formRetObj: FormState = {
         error: null,
         message: null
     }
@@ -77,7 +76,6 @@ export async function handleForm(prevState: State, formData: FormData) {
             }
         }
         catch (err) {
-            console.log(err);
             formRetObj = {
                 error: "FRM_BNK_ACC_UNEXPECTED_ERROR",
                 message: `An unexpected error occurred`
